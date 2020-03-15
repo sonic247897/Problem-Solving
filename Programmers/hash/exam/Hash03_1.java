@@ -30,17 +30,24 @@ public class Hash03_1 {
 		}
 		
 		
-		// 조합 - 최소 1개부터 시작 ~ map사이즈 만큼 고를 수 있음
-		 // 조합 - 최소 1개부터 시작
-        int answer = 0;
+		// 처리 필요 없이 단순히 경우의 수만 구하면 됨
+		int answer = 1;
+        for(int i=0; i<idx; ++i) {
+        	answer *= (category[i]+1);
+        }
+        answer--;
+        
+        return answer;
+		
+		/*int answer = 0;
         for(int i=1; i<=idx; ++i) {
         	answer += go(category, 0, 0, idx, i);
         }
         
-        return answer;
+        return answer;*/
 	}
 	
-	static int[] a = new int[30];
+	/*static int[] a = new int[30];
 	public static int go(int[] category, int index, int selected, int n, int m) {
 		if(selected == m) {
 			// 조합 하나 뽑기 성공
@@ -57,5 +64,5 @@ public class Hash03_1 {
 		a[selected] = 0;
 		ans += go(category, index+1, selected, n, m);
 		return ans;
-	}
+	}*/
 }

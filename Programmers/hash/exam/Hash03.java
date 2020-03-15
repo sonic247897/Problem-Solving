@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Random;
 
-// 대체적으로 해시가 더 빠른데 정렬-탐색이 빠른 case도 있음
+// 해시맵이 더 빠름
 public class Hash03 {
 	public static void main(String[] args) {
 

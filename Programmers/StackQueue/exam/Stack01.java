@@ -4,7 +4,7 @@ public class Stack01 {
 	public static void main(String[] args) {
 
 	}
-
+	// 이건 스택으로 푸는게 아니라 거꾸로 탐색 아닌가? O(N^2)-2중 for문
 	public static int[] solution(int[] heights) {
         int size = heights.length;
         int[] answer = new int[size]; //정답

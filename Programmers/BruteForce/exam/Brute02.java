@@ -7,7 +7,7 @@ public class Brute02 {
 		/*String a = "011";
 		System.out.println(Integer.parseInt(a));*/
 		
-		String numbers = "001";
+		String numbers = "011";
 		System.out.println("´ä: "+solution(numbers));
 		
 	}
@@ -47,7 +47,6 @@ public class Brute02 {
 	
 	public static int go(int[] a, boolean[] check, int cnt, int result, boolean[] calculated) {
 		int answer = 0;
-		System.out.println(result);
 		if(!calculated[result]) {
 			calculated[result] = true;
 			boolean prime = true;

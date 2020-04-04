@@ -1,6 +1,7 @@
 package BruteForce.exam;
 
 public class Brute04 {
+	// 근의 공식 안 쓰고 완전탐색 하는 이유-> 실수연산 피하려고??
 	public static void main(String[] args) {
 		int brown = 8;
 		int red = 1;

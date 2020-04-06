@@ -10,6 +10,8 @@ public class Brute03 {
 	public static int solution(int[][] baseball) {
 		// 각 수가 명령어의 조건에 맞는지 확인
         int answer = 0;
+        int[] numbers = new int[988]; // 0~ 987
+        
         return answer;
     }
 }

@@ -9,7 +9,6 @@ import java.text.DecimalFormat;
 public class Stack_1935 {
 	public static void main(String[] args) {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		
 		// ABCDE -> 숫자 
 		// 1:1 대응이므로 Symbol table 쓰면 편함(HashMap)
@@ -60,10 +59,7 @@ public class Stack_1935 {
 				}
 			}
 			// 2번째 자리수까지 출력
-			DecimalFormat form = new DecimalFormat("#.##");
-			System.out.println(stack[0]);
-			bw.write(form.format(stack[0]));
-			bw.flush();
+			System.out.printf("%.2f", stack[0]);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

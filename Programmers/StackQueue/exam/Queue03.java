@@ -1,39 +1,73 @@
 package StackQueue.exam;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
+/*
+ * 필요한 정보: 내가 지정한 원소의 위치(이동할 때마다 추적), 
+ * 			현재 프린트보다 우선순위 높은 프린트 있는지 정보 
+ */
+
 public class Queue03 {
 	public static void main(String[] args) {
-	
+		int[] priorities = {1, 1, 9, 1, 1, 1};
+		int location = 0;
+		solution(priorities, location);
 	}
-	// 두 방법 다 맨 처음에 구하려고 하는 원소의 우선순위 구해서 그 밑은 저장,탐색 안해도 된다
-	// 방법1. 0 10 20 30.. 더해줘서 십의자리가 원래 위치고 일의자리로 우선순위 구별
-	// 1~9 카운트배열? 찾고자 하는 우선순위(일의자리수)보다 큰거는 그냥 다 더해주고
-	// 마지막에 내보낸 수에 따라 계산 - 더하기, %연산 필요
-	// 방법2. 해시맵에 (순서, 우선순위)쌍 저장하고 우선순위=9,8,7.. 뽑아서 더하고 
-	// 마지막에 내보낸 수에 따라 계산 - 정렬된 상태로 뽑거나 순회 가능? 
-	// (순서를 바로 계산할수 있는가) 정렬해야함: 최대 O(nlgn) => 방법1 사용!
+	// 큐를 이용한 시뮬레이션(그냥 해보기)
+	// 최대 100+99+98+...+2+1 = 5050
+	// location 정보도 같이 이동해야 하므로 큐 2개 사용 
+	// 매번 이동하므로 LinkedList로 구현된 큐 사용 (ArrayList말고)
 	public static int solution(int[] priorities, int location) {
+		Queue<Integer> priorities_Queue = new LinkedList<Integer>();
+		Queue<Boolean> location_Queue = new LinkedList<Boolean>();
+		// 현재 원소보다 큰 우선순위 프린트 몇 개 남았는지 정보 필요
+		int[] leftPriority = new int[10]; // 1~9 사용
+		int currentMaxNum = 0;
+		
 		int size = priorities.length;
-		int limit = priorities[location];
-		int[] count = new int[10]; //1~9 index만 사용
-		
-		System.out.println("limit: "+limit);
-		for(int i=0; i<size; ++i) { // if문으로 limit체크 해주는게 더 비용높음
-			priorities[i] += (i*10);
-			count[priorities[i]]++;
+		for(int i=0; i<size; ++i) {
+			// 자바는 자동으로 wrapper타입으로 변경해준다
+			priorities_Queue.add(priorities[i]);
+			if(i == location) 
+				location_Queue.add(true);
+			else
+				location_Queue.add(false);
+			
+			++leftPriority[priorities[i]];
 		}
-		// limit+1 이상의 우선순위 가진 것들 더하기(limit+1은 따로 뺀다?=>X)
-		int answer = 0;
-		for(int i=limit+1; i<=9; ++i) {
-			answer += count[i];
+		for(int i=9; i>=0; --i) {
+			if(leftPriority[i] != 0) {
+				currentMaxNum = i;
+				break;
+			}
 		}
-		// limit+1은 따로 빼도 count정보로는 알 수 있는 정보가 없다
-		// 따라서 limit+1까지는 그냥 count를 다 더하고 규칙을 이용해야 함
-		// location이용? %이용?
-		// 처음에 for문 돌 때 flag로 limit보다 큰 원소 체크
-		
-		
-		
-        return answer;
+		// 시뮬레이션 시작
+		int order = 0;
+		while(true) {
+			// 순서: poll -> add
+			int print = priorities_Queue.poll();
+			boolean isFound = location_Queue.poll();
+			// 현재 최고 우선순위 프린트이면
+			if(print == currentMaxNum) {
+				++order; // 하나 출력함
+				if(isFound == true)  // 내가 찾던 프린트이면 순서 리턴
+					return order;
+				// 최고 우선순위 남은 값 없으면 그 다음 우선순위 찾기
+				if(--leftPriority[print] == 0) {
+					for(int i=currentMaxNum-1; i>=0; --i) {
+						if(leftPriority[i] != 0) {
+							currentMaxNum = i;
+							break;
+						}
+					}
+				}
+			// 최고 우선순위가 아니라면 다시 큐 뒤에 추가
+			}else {
+				priorities_Queue.add(print);
+				location_Queue.add(isFound);
+			}
+		}
     }
 
 }

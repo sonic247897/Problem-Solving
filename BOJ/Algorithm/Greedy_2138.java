@@ -23,36 +23,36 @@ public class Greedy_2138 {
 			for(int i=0; i<n; ++i) {
 				A[i] = a.charAt(i) - '0';
 				A_copy[i] = A[i];
-			}
-			for(int i=0; i<n; ++i) {
-				B[i] = a.charAt(i) - '0';
+				B[i] = b.charAt(i) - '0';
 			}
 			
 			// 1. 첫 번째 스위치 누를때
-			int cnt1 = 0;
+			int cnt1 = 1; // 한 번 눌렀으므로
 			A_copy[0] = 1-A_copy[0];
 			A_copy[1] = 1-A_copy[1];
-			for(int i=1; i<n; ++i) {
+			for(int i=1; i<n; ++i) { 
+				// i번째 스위치 누를 때 고려할 전구 위치 - i-1번째 전구
 				if(A_copy[i-1] == B[i-1]) continue;
-				for(int j=i-1; j<= i+1; ++j)
-					A_copy[j] = 1-A_copy[j];
+				for(int j=i-1; j<= i+1; ++j) {
+					if(j < n) A_copy[j] = 1-A_copy[j];
+				}
 				++cnt1;
 			}
 			if(A_copy[n-1] != B[n-1]) // 마지막 원소 다르면 불가능 
 				cnt1 = 987654321;
-			
+		
 			// 2. 첫 번째 스위치 누르지 않을 때
 			int cnt2 = 0;
 			for(int i=1; i<n; ++i) {
 				if(A[i-1] == B[i-1]) continue;
 				for(int j=i-1; j<= i+1; ++j)
-					A[j] = 1-A[j];
+					if(j < n) A[j] = 1-A[j];
 				++cnt2;
 			}
 			if(A[n-1] != B[n-1]) // 마지막 원소 다르면 불가능 
 				cnt2 = 987654321;
 			
-			int min = cnt1 >= cnt2 ? cnt1: cnt2;
+			int min = cnt1 <= cnt2 ? cnt1: cnt2;
 			if(min == 987654321) {
 				bw.write(Integer.toString(-1));
 				bw.flush();

@@ -38,9 +38,19 @@ public class DivideConquer_1891 {
 			
 			// 1. piece가 가리키는 좌표 받아오기
 			long length = 1 << d;
-			Pair piece_pair = go(0, 0, 0, d, piece, length);
+			Pair piece_pair = go(0, 0, 0, piece, length);
 			// 2. 좌표로 다시 위치 찾기
-			//  - 범위 검사하고 go, 범위 넘으면 -1
+			//  - 범위 검사하고 solve, 범위 넘으면 -1
+			long nextY = piece_pair.y + y;
+			long nextX = piece_pair.x + x;
+			if(nextY>=0 && nextY <length && nextX >=0 && nextX < length) {
+				StringBuilder sb = new StringBuilder();
+				solve(0, 0, nextY, nextX, sb, length);
+				bw.write(sb.toString());
+			}else {
+				bw.write(Integer.toString(-1));
+			}
+			bw.flush();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -48,31 +58,45 @@ public class DivideConquer_1891 {
 	
 	} 
 	
-	static Pair go(int idx, long y, long x, int d, String piece, long length) {
-		if(length == 2) {
+	private static void solve(long y, long x, long ny, long nx, StringBuilder sb, long length) {
+		if(length == 1) return;
+		long mid = length/2;
+		if(x+mid <= nx && ny < y+mid) {
+			sb.append('1');
+			solve(y, x+mid, ny, nx, sb, mid);
+		}
+		if(nx < x+mid && ny < y+mid) {
+			sb.append('2');
+			solve(y, x, ny, nx, sb, mid);
+		}
+		if(nx < x+mid && ny >= y+mid) {
+			sb.append('3');
+			solve(y+mid, x, ny, nx, sb, mid);
+		}
+		if(x+mid <= nx && ny >= y+mid) {
+			sb.append('4');
+			solve(y+mid, x+mid, ny, nx, sb, mid);
+		}
+	}
+
+	static Pair go(int idx, long y, long x, String piece, long length) {
+		if(length == 1) {
 			// 사분면 좌표 비교
-			char num = piece.charAt(idx);
-			switch(num) {
-				case '1':
-					return new Pair(y, x+1);
-				case '2':
-					return new Pair(y, x);
-				case '3':
-					return new Pair(y+1, x);
-				case '4':
-					
-			}
+			return new Pair(y, x);
 		}
 		long mid = length/2;
 		char num = piece.charAt(idx);
-		Pair pair;
+		Pair pair = new Pair(-1, -1);
 		
 		if(num == '1')
-			pair = go(idx+1, y, x+mid  d, piece, mid);
-		
+			pair = go(idx+1, y, x+mid, piece, mid);
 		if(num == '2')
-			pair = go(idx+1)
-			
+			pair = go(idx+1, y, x, piece, mid);
+		if(num == '3')
+			pair = go(idx+1, y+mid, x, piece, mid);
+		if(num == '4')
+			pair = go(idx+1, y+mid, x+mid, piece, mid);
+		
 		return pair;
 	}
 	

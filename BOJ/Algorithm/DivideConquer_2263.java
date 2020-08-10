@@ -5,6 +5,7 @@ import java.io.BufferedWriter;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
+
 // 시간복잡도 - 퀵소트처럼 비균등 분할이므로, 최악의 경우 불균형트리는 분할정복으로 풀어도 O(N) 스텝이 걸린다.
 // 		각 스텝에서 인오더의 루트를 찾을 때 이분탐색을 쓰면 O(lgN), 해시함수를 쓰면 O(1)이 걸린다.
 public class DivideConquer_2263 {
@@ -42,6 +43,10 @@ public class DivideConquer_2263 {
 		}
 	}
 
+// @ 대소관계가 바뀔 수 있는 과정이다. why? - 자식이 '없는' 경우가 있음(찾는 원소가 없는 경우가 있다)
+//	=> 퀵정렬이나 병합정렬에서는 이런 경우가 없지만 이분탐색에서는 while (left <= right) 조건문으로 검사한다.
+//		-> 퀵정렬도 if(low < high) 조건 쓰는데..
+	
 	// 포스트오더의 루트는 한번에 찾을 수 있지만, 이것을 이용하여 인오더의 루트는 어떻게 찾을것인가?
 	// 1. 순차탐색 - O(N)
 	// 2. 이분탐색 - O(lgN) => 정렬된 수가 아니므로 불가능
@@ -60,6 +65,6 @@ public class DivideConquer_2263 {
 			go(start, inorder_root-1, inOrderIndex[postOrder[inorder_root-1]], sb);
 		// 오른쪽 재귀
 		if(inorder_root+1 <= end) 
-			go(inorder_root+1, end, inOrderIndex[postOrder[end-1]], sb)
+			go(inorder_root+1, end, inOrderIndex[postOrder[end-1]], sb);
 	}
 }

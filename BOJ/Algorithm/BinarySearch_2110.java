@@ -31,7 +31,7 @@ public class BinarySearch_2110 {
 			while(left <= right) {
 				int mid = (left+right)/2;
 				int router = C; // 남은 공유기 개수
-				// @ 브루트 포스? 그리디?
+				// @ 브루트 포스? 그리디? => 그리디로 풀던데.. 왜 가능한지는 모르겠음
 				// @ 투 포인터(브루트 포스)로 바꿀 수 있는 부분?
 				for(int i=0; i<N; ++i) {
 					int l = 

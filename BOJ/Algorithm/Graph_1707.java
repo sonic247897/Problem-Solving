@@ -36,7 +36,15 @@ public class Graph_1707 {
 					a[u].add(v);
 					a[v].add(u);
 				}
-				if(dfs(1, 1)) { // 1번 정점부터 시작(A그룹)
+				
+				//@ 전체 그래프가 연결그래프여야 할 필요는 없다!
+				boolean valid = false;
+				for(int i=1; i<=V; ++i) {
+					if(color[i] == 0)
+						valid = dfs(i,1); // i번 정점-A그룹부터 시작
+					if(valid == false) break;
+				}
+				if(valid) {
 					bw.write("YES");
 				}else {
 					bw.write("NO");
@@ -51,16 +59,16 @@ public class Graph_1707 {
 	// group: 현재 그룹 번호(1번 그룹, 2번 그룹) 
 	static boolean dfs(int x, int group) {
 		color[x] = group;
-		boolean result = true;
 		for(int y : a[x]) {
 			// 같은 색과 연결되어 있으면 이분그래프 X
 			if(color[y] == group) {
-				result = false;
-				break;
-			}else if(color[y] == 0) {
-				result = dfs(y, 3-group); // 하나라도 false면 false
+				return false;
 			}
+			if(color[y] == 0) {
+				if(dfs(y, 3-group) == false) return false; // 하나라도 false면 false
+			}
+			// color[y] == 3-group인 경우는 검사하지 않고 넘어간다.
 		}
-		return result;
+		return true;
 	}
 }
